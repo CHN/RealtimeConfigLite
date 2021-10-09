@@ -62,27 +62,25 @@ int main()
 
 	struct ABC : public IServerCallbacks
 	{
-		void OnClientConnected() override
+		void OnClientConnected(ConfigServer* const configServer) override
 		{
-			configServer.lock()->ListenClient();
+			configServer->ListenClient();
 		}
 
-		void OnDataReceived(const char* buffer, size_t bufferLength) override
+		void OnDataReceived(ConfigServer* const configServer, const char* buffer, size_t bufferLength) override
 		{
 			std::cout << buffer << std::endl;
 		}
 
-		void OnClientDisconnected() override
+		void OnClientDisconnected(ConfigServer* const configServer) override
 		{
-			configServer.lock()->AcceptClient();
+			configServer->AcceptClient();
 		}
 	};
 
 	auto x = std::make_shared<ABC>();
 
 	auto cs = std::make_shared<ConfigServer>();
-
-	x->SetConfigServer(cs);
 
 	cs->Init("5555", x);
 	cs->AcceptClient();

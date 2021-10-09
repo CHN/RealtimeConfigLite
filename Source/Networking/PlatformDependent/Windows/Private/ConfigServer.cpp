@@ -51,7 +51,7 @@ bool ConfigServer::Init(const char* port, std::weak_ptr<IServerCallbacks> server
 		freeaddrinfo(result);
 		WSACleanup();
 
-		serverCallbacks.lock()->OnErrorOccurred(INVALID_SOCKET);
+		serverCallbacks.lock()->OnErrorOccurred(this, INVALID_SOCKET);
 
 		return false;
 	}
@@ -65,7 +65,7 @@ bool ConfigServer::Init(const char* port, std::weak_ptr<IServerCallbacks> server
 		closesocket(ListenSocket);
 		WSACleanup();
 
-		serverCallbacks.lock()->OnErrorOccurred(iResult);
+		serverCallbacks.lock()->OnErrorOccurred(this, iResult);
 
 		return false;
 	}
@@ -80,7 +80,7 @@ bool ConfigServer::Init(const char* port, std::weak_ptr<IServerCallbacks> server
 		closesocket(ListenSocket);
 		WSACleanup();
 
-		serverCallbacks.lock()->OnErrorOccurred(iResult);
+		serverCallbacks.lock()->OnErrorOccurred(this, iResult);
 
 		return false;
 	}
@@ -105,11 +105,11 @@ void ConfigServer::AcceptClient()
 			closesocket(ListenSocket);
 			WSACleanup();
 
-			serverCallbacks.lock()->OnErrorOccurred(INVALID_SOCKET);
+			serverCallbacks.lock()->OnErrorOccurred(this, INVALID_SOCKET);
 		}
 		else
 		{
-			serverCallbacks.lock()->OnClientConnected();
+			serverCallbacks.lock()->OnClientConnected(this);
 		}
 	});
 
@@ -134,12 +134,12 @@ void ConfigServer::ListenClient()
 
 			if (result <= 0)
 			{
-				serverCallbacks.lock()->OnClientDisconnected();
+				serverCallbacks.lock()->OnClientDisconnected(this);
 				StopListenClient();
 				return;
 			}
 
-			serverCallbacks.lock()->OnDataReceived(buffer, result);
+			serverCallbacks.lock()->OnDataReceived(this, buffer, result);
 		}
 	});
 
@@ -154,7 +154,7 @@ void ConfigServer::StopListenClient()
 
 	if (result == SOCKET_ERROR)
 	{
-		serverCallbacks.lock()->OnErrorOccurred(result);
+		serverCallbacks.lock()->OnErrorOccurred(this, result);
 	}
 
 	isListeningThreadActive = false;
@@ -174,7 +174,7 @@ void ConfigServer::CloseServer()
 
 	if (result == SOCKET_ERROR)
 	{
-		serverCallbacks.lock()->OnErrorOccurred(result);
+		serverCallbacks.lock()->OnErrorOccurred(this, result);
 	}
 
 	closesocket(ClientSocket);
@@ -211,7 +211,7 @@ ConfigServer::~ConfigServer()
 	if (ListenSocket != INVALID_SOCKET && 
 		ClientSocket != INVALID_SOCKET)
 	{
-		serverCallbacks.lock()->OnServerClosed();
+		serverCallbacks.lock()->OnServerClosed(this);
 
 		CloseServer();
 	}

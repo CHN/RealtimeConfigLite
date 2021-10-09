@@ -1,24 +1,14 @@
 #pragma once
 
-#include "ConfigServer.h"
-
-#include <memory>
-
 class ConfigServer;
 
 class IServerCallbacks
 {
 public:
 
-	void SetConfigServer(std::weak_ptr<ConfigServer> configServer);
-
-	virtual void OnClientConnected() {}
-	virtual void OnDataReceived(const char* buffer, size_t bufferLength) {}
-	virtual void OnServerClosed() {}
-	virtual void OnClientDisconnected() {}
-	virtual void OnErrorOccurred(int errorCode) {}
-
-protected:
-
-	std::weak_ptr<ConfigServer> configServer;
+	virtual void OnClientConnected(ConfigServer* const configServer) {}
+	virtual void OnDataReceived(ConfigServer* const configServer, const char* buffer, size_t bufferLength) {}
+	virtual void OnServerClosed(ConfigServer* const configServer) {}
+	virtual void OnClientDisconnected(ConfigServer* const configServer) {}
+	virtual void OnErrorOccurred(ConfigServer* const configServer, int errorCode) {}
 };
