@@ -188,7 +188,7 @@ void ConfigServer::CloseServer()
 	StopListenClient();
 }
 
-void ConfigServer::SetServerCallbacks(std::weak_ptr<IServerCallbacks>)
+void ConfigServer::SetServerCallbacks(std::weak_ptr<IServerCallbacks> serverCallbacks)
 {
 	this->serverCallbacks = serverCallbacks;
 }
