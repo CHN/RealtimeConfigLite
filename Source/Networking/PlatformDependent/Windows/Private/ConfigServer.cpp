@@ -15,11 +15,6 @@
 
 #pragma comment (lib, "Ws2_32.lib")
 
-namespace
-{
-	constexpr int DEFAULT_BUFFER_LENGTH = 512;
-}
-
 bool ConfigServer::Init(const char* port, std::weak_ptr<IServerCallbacks> serverCallbacks, uint16_t bufferSize)
 {
 	this->serverCallbacks = serverCallbacks;
