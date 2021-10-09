@@ -2,6 +2,8 @@ project(Framework)
 
 CreateTarget(${PROJECT_NAME} EXECUTABLE)
 
+target_link_libraries(${PROJECT_NAME} PRIVATE Networking)
+
 target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
 target_link_libraries(${PROJECT_NAME} PRIVATE glad)
 target_link_libraries(${PROJECT_NAME} PRIVATE imgui)

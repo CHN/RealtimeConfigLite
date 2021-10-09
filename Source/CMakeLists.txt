@@ -1,2 +1,3 @@
-add_subdirectory(ThirdParty)
 add_subdirectory(Framework)
+add_subdirectory(Networking)
+add_subdirectory(ThirdParty)
