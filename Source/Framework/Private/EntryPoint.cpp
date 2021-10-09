@@ -67,7 +67,7 @@ int main()
 			configServer->ListenClient();
 		}
 
-		void OnDataReceived(ConfigServer* const configServer, const char* buffer, size_t bufferLength) override
+		void OnDataReceived(ConfigServer* const configServer, const char* const buffer, const size_t bufferLength) override
 		{
 			std::cout << buffer << std::endl;
 		}

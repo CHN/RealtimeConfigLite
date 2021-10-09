@@ -11,15 +11,15 @@ class IServerCallbacks;
 class ConfigServer
 {
 public:
-	bool Init(const char* port, std::weak_ptr<IServerCallbacks> serverCallbacks, uint16_t bufferSize = 512);
+	bool Init(const char* const port, const std::weak_ptr<IServerCallbacks> serverCallbacks, const uint16_t bufferSize = 512);
 
 	void AcceptClient();
 	void ListenClient();
 	void StopListenClient();
 	void CloseServer();
 
-	void SetServerCallbacks(std::weak_ptr<IServerCallbacks> serverCallbacks);
-	void ResizeBuffer(uint16_t newBufferSize);
+	void SetServerCallbacks(const std::weak_ptr<IServerCallbacks> serverCallbacks);
+	void ResizeBuffer(const uint16_t newBufferSize);
 
 	~ConfigServer();
 	

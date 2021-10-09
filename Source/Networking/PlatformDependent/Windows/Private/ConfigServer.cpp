@@ -15,7 +15,7 @@
 
 #pragma comment (lib, "Ws2_32.lib")
 
-bool ConfigServer::Init(const char* port, std::weak_ptr<IServerCallbacks> serverCallbacks, uint16_t bufferSize)
+bool ConfigServer::Init(const char* const port, const std::weak_ptr<IServerCallbacks> serverCallbacks, const uint16_t bufferSize)
 {
 	this->serverCallbacks = serverCallbacks;
 	ResizeBuffer(bufferSize);
@@ -188,12 +188,12 @@ void ConfigServer::CloseServer()
 	StopListenClient();
 }
 
-void ConfigServer::SetServerCallbacks(std::weak_ptr<IServerCallbacks> serverCallbacks)
+void ConfigServer::SetServerCallbacks(const std::weak_ptr<IServerCallbacks> serverCallbacks)
 {
 	this->serverCallbacks = serverCallbacks;
 }
 
-void ConfigServer::ResizeBuffer(uint16_t newBufferSize)
+void ConfigServer::ResizeBuffer(const uint16_t newBufferSize)
 {
 	assert(!isListeningThreadActive && "Listening client should be stopped to change buffer size");
 
