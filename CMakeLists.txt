@@ -34,4 +34,4 @@ include("create_target")
 
 add_subdirectory(Source)
 
-set_property (DIRECTORY PROPERTY VS_STARTUP_PROJECT "Framework")
+set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT "Framework")
