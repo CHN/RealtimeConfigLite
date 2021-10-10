@@ -8,10 +8,6 @@
 #include "imgui.h"
 
 #include <cassert>
-#include <iostream>
-
-#include "ConfigServer.h"
-#include "IServerCallbacks.h"
 
 int main()
 {
@@ -58,32 +54,6 @@ int main()
 	assert(isSuccessful && "ImGUI could not initialize");
 
 	isSuccessful = ImGui_ImplOpenGL3_Init(glsl_version);
-	assert(isSuccessful && "ImGUI OpenGL could not initialize");
-
-	struct ABC : public IServerCallbacks
-	{
-		void OnClientConnected(ConfigServer* const configServer) override
-		{
-			configServer->ListenClient();
-		}
-
-		void OnDataReceived(ConfigServer* const configServer, const char* const buffer, const size_t bufferLength) override
-		{
-			std::cout << buffer << std::endl;
-		}
-
-		void OnClientDisconnected(ConfigServer* const configServer) override
-		{
-			configServer->AcceptClient();
-		}
-	};
-
-	auto x = std::make_shared<ABC>();
-
-	auto cs = std::make_shared<ConfigServer>();
-
-	cs->Init("5555", x);
-	cs->AcceptClient();
 
 	while (!glfwWindowShouldClose(window))
 	{
