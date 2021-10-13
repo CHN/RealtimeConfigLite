@@ -39,6 +39,8 @@ void WindowManager::Init()
 	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
 #endif
 
+	glfwWindowHint(GLFW_DECORATED, GL_FALSE);
+
 	window = glfwCreateWindow(640, 480, "My Title", nullptr, nullptr);
 
 	assert(window && "GLFW Window could not create");
@@ -46,11 +48,14 @@ void WindowManager::Init()
 	glfwMakeContextCurrent(window);
 	gladLoadGL(glfwGetProcAddress);
 	glfwSwapInterval(1);
+	glfwHideWindow(window);
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
 	ImGui::StyleColorsDark();
 
@@ -71,18 +76,29 @@ void WindowManager::Update()
 	DrawWindows();
 
 	ImGui::Render();
+
 	int display_w, display_h;
 	glfwGetFramebufferSize(window, &display_w, &display_h);
 	glViewport(0, 0, display_w, display_h);
 	glClear(GL_COLOR_BUFFER_BIT);
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
+	ImGuiIO& io = ImGui::GetIO();
+
+	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	{
+		GLFWwindow* backup_current_context = glfwGetCurrentContext();
+		ImGui::UpdatePlatformWindows();
+		ImGui::RenderPlatformWindowsDefault();
+		glfwMakeContextCurrent(backup_current_context);
+	}
+
 	glfwSwapBuffers(window);
 }
 
-bool WindowManager::DoesWindowWantClose()
+bool WindowManager::IsWindowOpen()
 {
-	return glfwWindowShouldClose(window);
+	return isMainWindowOpen;
 }
 
 void WindowManager::Shutdown()
@@ -110,5 +126,12 @@ void WindowManager::DrawWindows()
 
 void WindowManager::DrawMainWindow()
 {
+	ImGui::Begin("MainWindow", &isMainWindowOpen, ImGuiWindowFlags_NoCollapse);
 
+	ImGui::End();
+}
+
+void WindowManager::DrawTestWindowContent()
+{
+	
 }

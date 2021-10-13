@@ -7,7 +7,7 @@ class WindowManager
 public:
 	void Init();
 	void Update();
-	bool DoesWindowWantClose();
+	bool IsWindowOpen();
 	void Shutdown();
 	void AddWindow(); // TODO
 
@@ -15,10 +15,13 @@ public:
 	~WindowManager();
 private:
 	
+	bool isMainWindowOpen = true;
+
 	GLFWwindow* window = nullptr;
 
 	void DrawWindows();
 	void DrawMainWindow();
+	void DrawTestWindowContent();
 };
 
 extern WindowManager g_WindowManager;

@@ -4,7 +4,7 @@ int main()
 {
 	g_WindowManager.Init();
 
-	while (!g_WindowManager.DoesWindowWantClose())
+	while (g_WindowManager.IsWindowOpen())
 	{
 		g_WindowManager.Update();
 	}
