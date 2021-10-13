@@ -412,4 +412,6 @@ FodyWeavers.xsd
 *.vcxproj
 *.vcxproj.filters
 
-######## VISUAL STUDIO GIT-IGNORE TEMPLATE END ######## 
+######## VISUAL STUDIO GIT-IGNORE TEMPLATE END ########
+
+*.ini
