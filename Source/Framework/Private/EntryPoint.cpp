@@ -1,15 +1,19 @@
 #include "WindowManager.h"
 
+#include <memory>
+
 int main()
 {
-	g_WindowManager.Init();
+	std::unique_ptr<WindowManager> windowManager = std::make_unique<WindowManager>();
 
-	while (g_WindowManager.IsWindowOpen())
+	windowManager->Init();
+
+	while (windowManager->IsWindowOpen())
 	{
-		g_WindowManager.Update();
+		windowManager->Update();
 	}
 
-	g_WindowManager.Shutdown();
+	windowManager->Shutdown();
 
 	return 0;
 }

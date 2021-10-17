@@ -11,8 +11,6 @@
 
 #include <cassert>
 
-WindowManager g_WindowManager;
-
 void WindowManager::Init()
 {
 	assert(glfwInit() && "GLFW could not init");
@@ -41,14 +39,14 @@ void WindowManager::Init()
 
 	glfwWindowHint(GLFW_DECORATED, GL_FALSE);
 
-	window = glfwCreateWindow(640, 480, "My Title", nullptr, nullptr);
+	glfwWindow = glfwCreateWindow(640, 480, "My Title", nullptr, nullptr);
 
-	assert(window && "GLFW Window could not create");
+	assert(glfwWindow && "GLFW Window could not create");
 
-	glfwMakeContextCurrent(window);
+	glfwMakeContextCurrent(glfwWindow);
 	gladLoadGL(glfwGetProcAddress);
 	glfwSwapInterval(1);
-	glfwHideWindow(window);
+	glfwHideWindow(glfwWindow);
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -59,7 +57,7 @@ void WindowManager::Init()
 
 	ImGui::StyleColorsDark();
 
-	bool isSuccessful = ImGui_ImplGlfw_InitForOpenGL(window, true);
+	bool isSuccessful = ImGui_ImplGlfw_InitForOpenGL(glfwWindow, true);
 	assert(isSuccessful && "ImGUI could not initialize");
 
 	isSuccessful = ImGui_ImplOpenGL3_Init(glsl_version);
@@ -78,7 +76,7 @@ void WindowManager::Update()
 	ImGui::Render();
 
 	int display_w, display_h;
-	glfwGetFramebufferSize(window, &display_w, &display_h);
+	glfwGetFramebufferSize(glfwWindow, &display_w, &display_h);
 	glViewport(0, 0, display_w, display_h);
 	glClear(GL_COLOR_BUFFER_BIT);
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -93,7 +91,7 @@ void WindowManager::Update()
 		glfwMakeContextCurrent(backup_current_context);
 	}
 
-	glfwSwapBuffers(window);
+	glfwSwapBuffers(glfwWindow);
 }
 
 bool WindowManager::IsWindowOpen()
@@ -107,16 +105,16 @@ void WindowManager::Shutdown()
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
 
-	glfwDestroyWindow(window);
+	glfwDestroyWindow(glfwWindow);
 
 	glfwTerminate();
 
-	window = nullptr;
+	glfwWindow = nullptr;
 }
 
 WindowManager::~WindowManager()
 {
-	assert(window == nullptr && "Window manager must be shutdown before destroy");
+	assert(glfwWindow == nullptr && "Window manager must be shutdown before destroy");
 }
 
 void WindowManager::DrawWindows()
