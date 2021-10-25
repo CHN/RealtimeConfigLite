@@ -4,3 +4,6 @@
 [submodule "Source/ThirdParty/glfw"]
 	path = Source/ThirdParty/glfw
 	url = git@github.com:glfw/glfw.git
+[submodule "Source/Shared"]
+	path = Source/Shared
+	url = https://github.com/CHN/RealtimeConfigLiteShared.git
