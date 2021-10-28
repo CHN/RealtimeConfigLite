@@ -29,12 +29,12 @@ void DataCache::AddOnUpdateCallbackToCurrentScope(const std::function<OnUpdateCa
 	currentScope.lock()->onUpdateCallbacks.push_back(callback);
 }
 
-void DataCache::AddPointerToCurrentScope(void* pointer, SerializedType type)
+void DataCache::AddPointerToCurrentScope(void* pointer, RTCL::SerializedType type)
 {
 	currentScope.lock()->pointerVectorMap[type].push_back(pointer);
 }
 
-void DataCache::AddPointerListToCurrentScope(const std::vector<void*>& pointers, SerializedType type)
+void DataCache::AddPointerListToCurrentScope(const std::vector<void*>& pointers, RTCL::SerializedType type)
 {
 	auto& pointerVector = currentScope.lock()->pointerVectorMap[type];
 	pointerVector.insert(pointerVector.end(), pointers.begin(), pointers.end());
@@ -82,7 +82,7 @@ void DataCache::PrintDataInternal(DataScope* scope, int indent)
 			PrintIndent(indent + 2);
 			std::cout << "Serialized Value: ";
 
-			auto serializedValue = Serializer::SerializeByEnumType(ptrPair.first, ptr);
+			auto serializedValue = RTCL::Serializer::SerializeByEnumType(ptrPair.first, ptr);
 
 			std::for_each(serializedValue.begin(), serializedValue.end(), [](char value)
 				{
