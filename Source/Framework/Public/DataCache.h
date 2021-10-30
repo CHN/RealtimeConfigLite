@@ -17,8 +17,8 @@ public:
 
 	void AddScope(const std::string& scopeName);
 	void AddOnUpdateCallbackToCurrentScope(const std::function<OnUpdateCallbackType>& callback);
-	void AddPointerToCurrentScope(void* pointer, RTCL::SerializedType type);
-	void AddPointerListToCurrentScope(const std::vector<void*>& pointers, RTCL::SerializedType type);
+	void AddPointerToCurrentScope(RTCL::Serializer::PointerType* pointer, RTCL::SerializedType type);
+	void AddPointerListToCurrentScope(const std::vector<RTCL::Serializer::PointerType*>& pointers, RTCL::SerializedType type);
 	void EndScope();
 	void EndAllScopes();
 
@@ -26,7 +26,7 @@ public:
 
 private:
 
-	using PointerListMapType = std::map<RTCL::SerializedType, std::vector<void*>>;
+	using PointerListMapType = std::map<RTCL::SerializedType, std::vector<RTCL::Serializer::PointerType*>>;
 
 	struct DataScope;
 

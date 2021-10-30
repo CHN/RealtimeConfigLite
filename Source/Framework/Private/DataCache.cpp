@@ -29,12 +29,12 @@ void DataCache::AddOnUpdateCallbackToCurrentScope(const std::function<OnUpdateCa
 	currentScope.lock()->onUpdateCallbacks.push_back(callback);
 }
 
-void DataCache::AddPointerToCurrentScope(void* pointer, RTCL::SerializedType type)
+void DataCache::AddPointerToCurrentScope(RTCL::Serializer::PointerType* pointer, RTCL::SerializedType type)
 {
 	currentScope.lock()->pointerVectorMap[type].push_back(pointer);
 }
 
-void DataCache::AddPointerListToCurrentScope(const std::vector<void*>& pointers, RTCL::SerializedType type)
+void DataCache::AddPointerListToCurrentScope(const std::vector<RTCL::Serializer::PointerType*>& pointers, RTCL::SerializedType type)
 {
 	auto& pointerVector = currentScope.lock()->pointerVectorMap[type];
 	pointerVector.insert(pointerVector.end(), pointers.begin(), pointers.end());
